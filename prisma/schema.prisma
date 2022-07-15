@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Seller {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(30)
+  email       String    @unique
+  password    String    
+  role        Role      @default(SELLER)
+  gstNumber   String?
+  phoneNumber String    @db.VarChar(10)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  otp         String?
+  verified    Boolean   @default(false)
+  token       String?
+  products    Product[]
+}
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255)
+  price         Int
+  description   String
+  productImages String[]
+  inStock       Boolean  @default(false)
+  isDiscounted  Boolean  @default(false)
+  discountPrice Int      @default(0)
+  category      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  seller        Seller   @relation(fields: [sellerId], references: [id])
+  sellerId      Int
+}
+
+enum Role {
+  ADMIN
+  USER
+  SELLER
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(30)
+  email       String    @unique
+  password    String
+  phoneNumber String    @db.VarChar(10)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  role        Role      @default(USER)
+  otp         String?
+  verified    Boolean  @default(false)
+  token       String?
+}
