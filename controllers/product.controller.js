@@ -39,6 +39,7 @@ const getProductsBySellerId = async(req, res) => {
 
 const postProduct = async(req, res) => {
     req.body.sellerId = req.body.id;
+    delete req.body.id;
     try {
         await prisma.product.create({
             data: req.body
@@ -48,6 +49,7 @@ const postProduct = async(req, res) => {
             data: 'successfully added.'
         })
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             status: 'NOTOK',
             Error: error
