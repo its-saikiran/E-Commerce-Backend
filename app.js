@@ -14,13 +14,13 @@ app.get('/', (req, res) => {
             signUp: '/user/register',
             otp: '/user/otp',
             login: '/user/login',
-            update: '/user/update/:id',
-            logOut: '/user/logout/:id',
-            delete: '/user/signout/:id',
+            update: '/user/update',
+            logOut: '/user/logout',
+            delete: '/user/signout',
             products: {
                 getProducts: '/user/products',
                 getProductsId: '/user/product/:id',
-                getProductsBySellerId: '/products/seller/:sellerId'
+                getProductsBySellerId: '/user/products/:sellerId'
 
             }
         },
@@ -28,13 +28,14 @@ app.get('/', (req, res) => {
             signUp: '/seller/register',
             otp: '/seller/otp',
             login: '/seller/login',
-            update: '/seller/update/:id',
-            logOut: '/seller/logout/:id',
-            delete: '/seller/signout/:id',
+            update: '/seller/update',
+            logOut: '/seller/logout',
+            delete: '/seller/signout',
             products: {
                 getProducts: '/seller/products',
                 getProductsId: '/seller/product/:id',
-                getProductsBySellerId: '/products/seller/:sellerId'
+                getProductsBySellerId: '/seller/products/:sellerId',
+                postProduct: '/seller/product'
 
             }
         },
