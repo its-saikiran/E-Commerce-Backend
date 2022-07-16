@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { authorizeUser } = require('../auth/jwt');
+const { authorize } = require('../auth/jwt');
 
 const {
   signUp,
@@ -17,9 +17,9 @@ const { loginChecks } = require('../middlewares/loginChecks');
 router.post('/register', signUpChecks, signUp);
 router.post('/otp', isValidOtp, otpEnter);
 router.post('/login', loginChecks, login);
-router.patch('/update/:id', authorizeUser, updateProfile);
-router.patch('/logout/:id', authorizeUser, logOut);
-router.delete('/signout/:id', authorizeUser, signOut)
+router.patch('/update', authorize, updateProfile);
+router.patch('/logout', authorize, logOut);
+router.delete('/signout', authorize, signOut)
 
 
 const { 
@@ -28,8 +28,8 @@ const {
   getProductsBySellerId,
 } = require('../controllers/product.controller');
 
-router.get('/products', authorizeUser, getProducts)
-router.get('/product/:id', authorizeUser, getProductById)
-router.get('/products/seller/:sellerId', authorizeUser, getProductsBySellerId)
+router.get('/products', authorize, getProducts)
+router.get('/product/:id', authorize, getProductById)
+router.get('/products/:sellerId', authorize, getProductsBySellerId)
 
 module.exports = router;

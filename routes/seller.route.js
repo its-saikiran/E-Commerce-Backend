@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { authorizeSeller } = require('../auth/jwt');
+const { authorize } = require('../auth/jwt');
 
 const {
   signUp,
@@ -17,9 +17,9 @@ const { loginChecks } = require('../middlewares/loginChecks');
 router.post('/register', signUpChecks, signUp);
 router.post('/otp', isValidOtp, otpEnter);
 router.post('/login', loginChecks, login);
-router.patch('/update/:id', authorizeSeller, updateProfile);
-router.patch('/logout/:id', authorizeSeller, logOut);
-router.delete('/signout/:id', authorizeSeller, signOut);
+router.patch('/update', authorize, updateProfile);
+router.patch('/logout', authorize, logOut);
+router.delete('/signout', authorize, signOut);
 
 
 const { 
@@ -29,10 +29,10 @@ const {
   postProduct
 } = require('../controllers/product.controller');
 
-router.get('/products', authorizeSeller, getProducts)
-router.get('/product/:id', authorizeSeller, getProductById)
-router.get('/products/seller/:sellerId', authorizeSeller, getProductsBySellerId)
-router.post('/product/:id', authorizeSeller, postProduct)
+router.get('/products', authorize, getProducts)
+router.get('/product/:id', authorize, getProductById)
+router.get('/products/seller/:sellerId', authorize, getProductsBySellerId)
+router.post('/product', authorize, postProduct)
 // router.patch('/product/:id', authorize, updateProduct)
 // router.delete('/product/:id', authorize, deleteProduct)
 

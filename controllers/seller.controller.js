@@ -137,7 +137,7 @@ const login = async (req, res) => {
             where: { id },
             data: { token }
         })
-        res.status(200).json({
+        res.status(200).cookie('authToken', token).json({
             status: 'OK',
             data: "Logged in successfully."
         })
@@ -151,8 +151,8 @@ const login = async (req, res) => {
 
 
 const updateProfile = async (req, res) => {
-    const id = parseInt(req.params.id);
-    const { email } = req.body;
+    const { id, email } = req.body;
+    console.log(req.body)
     if (email) {
         return res.status(200).json({
             status: 'NOTOK',
@@ -166,7 +166,7 @@ const updateProfile = async (req, res) => {
         })
         res.status(200).json({
             status: 'OK',
-            data: "Updated profile successfully."
+            data: "Profile updated successfully."
         })
     } catch (error) {
         res.status(500).json({
@@ -174,8 +174,8 @@ const updateProfile = async (req, res) => {
             Error: error
         })
     }
-
 };
+
 
 
 const logOut = async (req, res) => {
@@ -189,7 +189,7 @@ const logOut = async (req, res) => {
             data: "Signed out successfully."
         })
     } catch (error) {
-        res.status(500).json({
+        res.status(500).clearCookie().json({
             status: 'NOTOK',
             Error: error
         })
